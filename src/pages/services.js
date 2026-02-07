@@ -1,3 +1,4 @@
+import Footer from '../components/Footer.js';
 import Globe from '../components/Globe.js';
 
 export default class Services {
@@ -17,9 +18,15 @@ export default class Services {
 
         const globeContainer = container.querySelector('.globe-container');
         this.globe = new Globe(globeContainer);
+
+        this.footer = new Footer();
+        this.footer.mount(container);
     }
 
     unmount() {
+        if (this.footer) {
+            this.footer.destroy();
+        }
         if (this.globe) {
             this.globe.destroy();
         }

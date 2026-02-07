@@ -1,3 +1,4 @@
+import Footer from '../components/Footer.js';
 import gsap from 'gsap';
 
 export default class Contact {
@@ -76,6 +77,10 @@ export default class Contact {
             duration: 1,
             ease: 'power2.out'
         });
+        this.footer = new Footer();
+        this.footer.mount(container);
     }
-    unmount() { }
+    unmount() {
+        if (this.footer) this.footer.destroy();
+    }
 }

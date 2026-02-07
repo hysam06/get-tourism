@@ -1,3 +1,4 @@
+import Footer from '../components/Footer.js';
 import gsap from 'gsap';
 
 export default class About {
@@ -106,6 +107,10 @@ export default class About {
             duration: 0.8,
             stagger: 0.2
         });
+        this.footer = new Footer();
+        this.footer.mount(container);
     }
-    unmount() { }
+    unmount() {
+        if (this.footer) this.footer.destroy();
+    }
 }

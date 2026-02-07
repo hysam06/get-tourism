@@ -7,15 +7,9 @@ import Lenis from 'lenis';
 gsap.registerPlugin(ScrollTrigger);
 
 // Initialize Global Lenis
+// Initialize Global Lenis
 const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
+    duration: 0, // Normal scrolling speed
 });
 
 lenis.on('scroll', ScrollTrigger.update);
@@ -28,7 +22,7 @@ gsap.ticker.lagSmoothing(0);
 
 // Initialize Router and Navbar
 import Navbar from './components/Navbar.js';
-import Footer from './components/Footer.js';
+// Footer removed as it is now part of Home page structure
 
 document.addEventListener('DOMContentLoaded', () => {
     // Mount Navbar
@@ -38,9 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const router = new Router();
     router.init();
 
-    // Mount Footer (it will be at bottom naturally, but router clears #app, so footer outside #app)
-    const footer = new Footer();
-    footer.mount(document.body);
+    // Footer initialization removed
 
     // Simulate Loading
     const loader = document.getElementById('loader');
@@ -61,3 +53,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+

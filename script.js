@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial positions
   gsap.set(heroCopy, { yPercent: 100 });
-  
+
   // Entrance Animation for New Text
   gsap.from(".hero-title", {
     y: 100,
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ScrollTrigger.create({
     trigger: ".hero",
     start: "top top",
-    end: `+=${window.innerHeight * 3}px`,
+    end: `+=${window.innerHeight * 1.5}px`,
     pin: true,
     pinSpacing: true,
     scrub: 1,
