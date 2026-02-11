@@ -4,52 +4,108 @@ import gsap from 'gsap';
 export default class Contact {
     async mount(container) {
         container.innerHTML = `
+            <style>
+                .contact-page-new {
+                    position: relative;
+                    overflow: hidden;
+                    background-color: #f5f5f5;
+                    background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+                    background-size: 20px 20px;
+                }
+                
+                .contact-wrapper {
+                    position: relative;
+                    z-index: 2;
+                }
+
+                /* Revert Text Colors to standard dark theme */
+                .contact-title, 
+                .form-title {
+                    color: #1a1a1a !important;
+                }
+                .contact-subtitle,
+                .contact-label, 
+                .contact-value, 
+                .follow-text {
+                     color: #555555 !important;
+                }
+                .contact-icon, .social-icon {
+                    color: #d4af37 !important; /* Keep Gold accent */
+                }
+            </style>
             <div class="contact-page-new">
-                <div class="ripple-background">
-                    <div class="ripple-circle" style="--i: 0;"></div>
-                    <div class="ripple-circle" style="--i: 1;"></div>
-                    <div class="ripple-circle" style="--i: 2;"></div>
-                    <div class="ripple-circle" style="--i: 3;"></div>
-                    <div class="ripple-circle" style="--i: 4;"></div>
-                    <div class="ripple-circle" style="--i: 5;"></div>
-                    <div class="ripple-circle" style="--i: 6;"></div>
-                    <div class="ripple-circle" style="--i: 7;"></div>
-                </div>
                 <div class="contact-wrapper">
-                    <div class="contact-info-side">
-                        <h1 class="contact-title">Ready to Start Your Business Journey?</h1>
-                        <p class="contact-subtitle">Contact us for a free consultation. Our experts are ready to guide you through your UAE business setup.</p>
-                        
-                        <div class="contact-details">
-                            <div class="contact-detail-item">
-                                <div class="contact-icon">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z"/>
-                                        <path d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a1 1 0 0 0-.086-1.391l-4.064-3.696z"/>
-                                    </svg>
-                                </div>
-                                <div class="contact-detail-text">
-                                    <div class="contact-label">PHONE</div>
-                                    <div class="contact-value">+971 50 427 4260</div>
-                                </div>
-                            </div>
+                    <div class="contact-header">
+                        <h1 class="contact-title">Ready to Start Your Adventure?</h1>
+                        <p class="contact-subtitle">Contact us for a free consultation. Our travel experts are ready to plan your perfect UAE getaway.</p>
+                    </div>
 
-                            <div class="contact-detail-item">
-                                <div class="contact-icon">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"/>
-                                    </svg>
+                    <div class="contact-form-container">
+                        <div class="contact-form-box landscape">
+                            <h2 class="form-title">Request a Free Travel Quote</h2>
+                            
+                            <form class="contact-form">
+                                <div class="form-row-landscape">
+                                    <input type="text" placeholder="Your Name *" required class="form-input"/>
+                                    <input type="tel" placeholder="Phone Number *" required class="form-input"/>
+                                    <select class="form-select" id="service-select" required>
+                                        <option value="">Select Service *</option>
+                                        <option value="visa">Visit Visa</option>
+                                        <option value="tour">Tour Packages</option>
+                                        <option value="flight">Flight Tickets</option>
+                                        <option value="other">Other Services</option>
+                                    </select>
                                 </div>
-                                <div class="contact-detail-text">
-                                    <div class="contact-label">EMAIL</div>
-                                    <div class="contact-value">info@getourism.com</div>
+                                
+                                <div id="dynamic-fields-container" class="dynamic-fields-container"></div>
+                                
+                                <div class="form-message-row">
+                                    <textarea placeholder="Your Message" rows="3" class="form-textarea"></textarea>
+                                    
+                                    <button type="submit" class="form-submit-btn">
+                                        <span>SEND INQUIRY</span>
+                                        <svg class="btn-arrow" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                                        </svg>
+                                        <svg class="btn-phone" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                                        </svg>
+                                    </button>
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info-bar">
+                        <div class="contact-detail-item">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z"/>
+                                    <path d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a1 1 0 0 0-.086-1.391l-4.064-3.696z"/>
+                                </svg>
                             </div>
+                            <div class="contact-detail-text">
+                                <div class="contact-label">PHONE</div>
+                                <div class="contact-value">+971 50 427 4260</div>
+                            </div>
+                        </div>
 
-                            <div class="contact-detail-item">
-                                <div class="contact-icon">
-                                    <svg viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2C7.589 2 4 5.589 4 9.995 3.971 16.44 11.696 21.784 12 22c0 0 8.029-5.56 8-12 0-4.411-3.589-8-8-8zm0 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                        <div class="contact-detail-item">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"/>
+                                </svg>
+                            </div>
+                            <div class="contact-detail-text">
+                                <div class="contact-label">EMAIL</div>
+                                <div class="contact-value">info@getourism.com</div>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail-item">
+                            <div class="contact-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C7.589 2 4 5.589 4 9.995 3.971 16.44 11.696 21.784 12 22c0 0 8.029-5.56 8-12 0-4.411-3.589-8-8-8zm0 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
                                     </svg>
                                 </div>
                                 <div class="contact-detail-text">
@@ -59,7 +115,7 @@ export default class Contact {
                             </div>
                         </div>
 
-                        <div class="contact-socials">
+                        <div class="contact-socials-bar">
                             <span class="follow-text">Follow Us:</span>
                             <a href="#" class="social-icon" aria-label="Facebook">
                                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -82,46 +138,15 @@ export default class Contact {
                             <a href="#" class="social-icon" aria-label="WhatsApp">
                                 <svg viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178
-
  0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/>
                                 </svg>
                             </a>
                         </div>
+                        
+
                     </div>
 
-                    <div class="contact-form-side">
-                        <div class="contact-form-box">
-                            <h2 class="form-title">Request a Free Consultation</h2>
-                            
-                            <form class="contact-form">
-                                <input type="text" placeholder="Your Name *" required class="form-input"/>
-                                
-                                <div class="form-row">
-                                    <input type="email" placeholder="Email Address *" required class="form-input"/>
-                                    <input type="tel" placeholder="Phone Number *" required class="form-input"/>
-                                </div>
-                                
-                                <select class="form-select" id="service-select" required>
-                                    <option value="">Select Service *</option>
-                                    <option value="visa">Visit Visa</option>
-                                    <option value="tour">Tour Packages</option>
-                                    <option value="flight">Flight Tickets</option>
-                                    <option value="other">Other Services</option>
-                                </select>
-                                
-                                <div id="dynamic-fields-container" class="dynamic-fields-container"></div>
-                                
-                                <textarea placeholder="Your Message" rows="5" class="form-textarea"></textarea>
-                                
-                                <button type="submit" class="form-submit-btn">
-                                    <span>SEND INQUIRY</span>
-                                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         `;
@@ -234,7 +259,7 @@ export default class Contact {
                 dynamicFieldsContainer.classList.add('active');
             } else if (service === 'other') {
                 dynamicFieldsContainer.innerHTML = `
-                    <div class="dynamic-section-title">Service Details</div>
+                    <div class="dynamic-section-title">Travel Service Details</div>
                     <input type="text" placeholder="Specific Service Required *" required class="form-input"/>
                     <textarea placeholder="Please describe your requirements in detail *" required rows="4" class="form-textarea"></textarea>
                 `;

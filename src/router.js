@@ -69,15 +69,8 @@ class Router {
         }
 
         if (this.navbar) {
-            const isHome = path === '/';
-            this.navbar.setVisible(true); // Always visible
-            this.navbar.setSolid(!isHome);
-            if (!isHome) {
-                this.navbar.createGlobalTrigger();
-            } else if (this.navbar.globalTrigger) {
-                this.navbar.globalTrigger.kill();
-                this.navbar.globalTrigger = null;
-            }
+            this.navbar.setVisible(true); // Always ensure element is present
+            this.navbar.createGlobalTrigger(); // Let Navbar decide its state based on location.hash
         }
         document.body.classList.toggle('white-theme', path !== '/');
 

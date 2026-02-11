@@ -4,9 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 /**
  * Navbar component with integrated mobile side menu.
  * Features:
- * - Desktop: Sticky header with navigation links and contact info.
- * - Mobile: Hamburger menu that opens a white side panel with perspective link animations.
- * - Scroll: Transitions from white to black on scroll.
+ * - Desktop: Split layout (Links - Logo - Links) in a smaller pill.
+ * - Mobile: Hamburger menu that opens a white side panel.
+ * - Scroll: 
+ *   - Home: Hidden until "Discover The World". Smart Scroll after.
+ *   - Other: Visible at Top. Smart Scroll immediately.
  */
 export default class Navbar {
     constructor() {
@@ -14,66 +16,56 @@ export default class Navbar {
         this.element.className = 'navbar';
         this.element.innerHTML = `
             <div class="nav-container">
-                <!-- Mobile Menu Toggle (Left Side) -->
-                <div class="menu-toggle mobile-only">
-                    <div class="menu-button">
-                        <div class="hamburger-box">
-                            <span class="burger-line line-1"></span>
-                            <span class="burger-line line-2"></span>
-                            <span class="burger-line line-3"></span>
+                <div class="nav-pill">
+                    <!-- Left Links -->
+                    <div class="nav-links-left desktop-only">
+                         <a href="#/" data-link class="nav-btn featured-link">
+                            <span class="btn-wrapper">
+                                <span class="btn-text">Featured</span>
+                                <span class="btn-text-hover">Featured</span>
+                            </span>
+                        </a>
+                        <a href="#/services" data-link class="nav-btn">
+                            <span class="btn-wrapper">
+                                <span class="btn-text">Services</span>
+                                <span class="btn-text-hover">Services</span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Center Logo -->
+                    <div class="nav-center">
+                        <a href="#/" data-link class="logo-link">
+                            <img src="/assets/get logo.png" alt="Get Tourism" class="nav-logo" />
+                        </a>
+                    </div>
+
+                    <!-- Right Links -->
+                    <div class="nav-links-right desktop-only">
+                        <a href="#/about" data-link class="nav-btn">
+                            <span class="btn-wrapper">
+                                <span class="btn-text">About</span>
+                                <span class="btn-text-hover">About</span>
+                            </span>
+                        </a>
+                        <a href="#/contact" data-link class="nav-btn">
+                            <span class="btn-wrapper">
+                                <span class="btn-text">Contact</span>
+                                <span class="btn-text-hover">Contact</span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu Toggle (Absolute Right for mobile) -->
+                    <div class="menu-toggle mobile-only">
+                        <div class="menu-button">
+                            <div class="hamburger-box">
+                                <span class="burger-line line-1"></span>
+                                <span class="burger-line line-2"></span>
+                                <span class="burger-line line-3"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Center Logo -->
-                <div class="nav-center">
-                    <a href="#/" data-link class="logo-link">
-                        <img src="/assets/get logo.png" alt="Get Tourism" class="nav-logo" />
-                    </a>
-                </div>
-
-                <!-- Desktop Left Links -->
-                <div class="nav-left desktop-only">
-                    <a href="#/" data-link class="nav-btn featured-link">
-                        <span class="btn-wrapper">
-                            <span class="btn-text">Featured</span>
-                            <span class="btn-text-hover">Featured</span>
-                        </span>
-                        <svg class="nav-arrow" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                        </svg>
-                    </a>
-                    <a href="#/services" data-link class="nav-btn">
-                        <span class="btn-wrapper">
-                            <span class="btn-text">Services</span>
-                            <span class="btn-text-hover">Services</span>
-                        </span>
-                        <svg class="nav-arrow" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                        </svg>
-                    </a>
-                </div>
-
-                <!-- Desktop Right Links -->
-                <div class="nav-right desktop-only">
-                    <a href="#/about" data-link class="nav-btn">
-                        <span class="btn-wrapper">
-                            <span class="btn-text">About</span>
-                            <span class="btn-text-hover">About</span>
-                        </span>
-                        <svg class="nav-arrow" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                        </svg>
-                    </a>
-                    <a href="#/contact" data-link class="nav-btn">
-                        <span class="btn-wrapper">
-                            <span class="btn-text">Contact</span>
-                            <span class="btn-text-hover">Contact</span>
-                        </span>
-                        <svg class="nav-arrow" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                        </svg>
-                    </a>
                 </div>
             </div>
 
@@ -87,13 +79,13 @@ export default class Navbar {
                                 <a href="#/" data-link>Home</a>
                             </div>
                             <div class="menu-link-item">
-                                <a href="#/about" data-link>About</a>
-                            </div>
-                            <div class="menu-link-item">
                                 <a href="#/" class="featured-link-mobile">Featured</a>
                             </div>
-                            <div class="menu-link-item">
+                             <div class="menu-link-item">
                                 <a href="#/services" data-link>Services</a>
+                            </div>
+                            <div class="menu-link-item">
+                                <a href="#/about" data-link>About</a>
                             </div>
                             <div class="menu-link-item">
                                 <a href="#/contact" data-link>Contact</a>
@@ -117,73 +109,97 @@ export default class Navbar {
         style.textContent = `
             .navbar {
                 position: fixed;
-                top: 0;
+                top: 25px; 
                 left: 0;
                 width: 100%;
-                height: var(--nav-height);
                 z-index: 1000;
-                background: transparent;
                 display: flex;
-                align-items: center;
-                padding: 1.5rem 0;
+                justify-content: center;
+                pointer-events: none;
+                transform: translateY(-200%);
+                transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Slower, smoother */
+            }
+            
+            .navbar.visible {
+                transform: translateY(0);
+                pointer-events: none;
             }
             
             .nav-container {
                 width: 100%;
-                max-width: 1600px;
+                max-width: 1400px;
+                padding: 0 2rem;
+                display: flex;
+                justify-content: center;
+                pointer-events: auto;
+            }
+
+            .nav-pill {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 100px;
+                padding: 0.5rem 2rem; /* Smaller padding */
+                max-width: 850px; /* Constrained Width */
                 margin: 0 auto;
-                padding: 0 3rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                position: relative;
+                width: 100%;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.4s ease;
             }
             
             .desktop-only { display: flex; }
             .mobile-only { display: none; }
             
-            .nav-center {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
+            .nav-links-left, .nav-links-right {
+                flex: 1; /* Take up equal space to force logo center */
                 display: flex;
                 align-items: center;
+                gap: 1.5rem;
+            }
+
+            .nav-links-left {
+                justify-content: flex-start; /* Align left group to start */
+                /* padding-left: 1rem; */
+            }
+
+            .nav-links-right {
+                justify-content: flex-end; /* Align right group to end */
+                /* padding-right: 1rem; */
+            }
+
+            .nav-center {
+                flex: 0 0 auto;
+                display: flex;
                 justify-content: center;
-                z-index: 1001;
+                margin: 0 1rem;
             }
 
             .nav-logo {
-                height: 40px;
+                height: 40px; /* Smaller logo */
                 width: auto;
+                display: block;
             }
 
             .nav-btn {
-                font-size: 1.1rem;
-                font-weight: 500;
-                text-transform: uppercase;
-                letter-spacing: 1.5px;
-                color: var(--text-color, #fff);
-                padding: 0.8rem 2rem;
+                font-family: 'Inter', sans-serif;
+                font-size: 0.95rem; /* Slightly smaller text */
+                font-weight: 400; /* Regular weight */
+                color: #000000;
                 text-decoration: none;
-                overflow: hidden;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.4rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                position: relative;
+                padding: 0.5rem 0.5rem;
+                transition: color 0.3s ease;
             }
 
-            .nav-arrow {
-                width: 16px;
-                height: 16px;
-                opacity: 0;
-                transform: translateX(-8px);
-                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            .nav-btn:hover {
+                color: #333;
             }
-
-            .nav-btn:hover .nav-arrow {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
 
             .btn-wrapper {
                 position: relative;
@@ -193,7 +209,7 @@ export default class Navbar {
 
             .btn-text, .btn-text-hover {
                 display: block;
-                transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
             }
 
             .btn-text-hover {
@@ -203,25 +219,16 @@ export default class Navbar {
                 width: 100%;
                 transform: translateY(100%);
                 opacity: 0;
+                color: #555;
             }
 
             .nav-btn:hover .btn-text { transform: translateY(-100%); opacity: 0; }
             .nav-btn:hover .btn-text-hover { transform: translateY(0%); opacity: 1; }
 
-            .contact-info {
-                display: flex;
-                align-items: center;
-                gap: 0.8rem;
-                font-size: 1rem;
-                color: var(--text-color, #fff);
-                text-decoration: none;
-                padding: 0.6rem 1.2rem;
-            }
-
             /* Hamburger Menu Button */
             .menu-button {
-                width: 40px;
-                height: 40px;
+                width: 36px;
+                height: 36px;
                 cursor: pointer;
                 position: relative;
                 z-index: 1100;
@@ -231,8 +238,8 @@ export default class Navbar {
             }
 
             .hamburger-box {
-                width: 24px;
-                height: 18px;
+                width: 22px;
+                height: 16px;
                 position: relative;
                 display: flex;
                 flex-direction: column;
@@ -242,14 +249,10 @@ export default class Navbar {
             .burger-line {
                 width: 100%;
                 height: 2px;
-                background-color: #fff;
+                background-color: #000;
                 transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
                             background-color 0.3s ease,
                             opacity 0.3s ease;
-            }
-
-            .navbar.scrolled .burger-line {
-                background-color: #02184C;
             }
             
             .navbar .menu-button.active .burger-line {
@@ -293,6 +296,7 @@ export default class Navbar {
                 box-shadow: 20px 0 50px rgba(0,0,0,0.1);
                 position: relative;
                 text-align: left;
+                pointer-events: auto;
             }
 
             .menu-links {
@@ -347,9 +351,11 @@ export default class Navbar {
             @media (max-width: 768px) {
                 .desktop-only { display: none; }
                 .mobile-only { display: block; }
-                .nav-container { padding: 0 1.5rem; }
-                .menu-content { width: 85%; padding: 100px 30px 40px; }
-                .menu-link-item a { font-size: 2.5rem; }
+                .nav-pill { padding: 0.6rem 1.5rem; }
+                .nav-center { flex: 1;  justify-content: center;} /* Centered logo on mobile too? */
+                .nav-center .nav-logo { margin: 0 auto; }
+                 /* Actually on mobile usually logo is left or center. Let's keep center for now as it fits the requested style */
+                .menu-toggle { position: absolute; right: 1.5rem; }
             }
         `;
         document.head.appendChild(style);
@@ -375,63 +381,41 @@ export default class Navbar {
         }
 
         // Featured link scroll functionality
-        const featuredLink = this.element.querySelector('.featured-link');
-        if (featuredLink) {
-            featuredLink.addEventListener('click', (e) => {
+        const featuredLinks = this.element.querySelectorAll('.featured-link, .featured-link-mobile');
+        featuredLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
+                if (link.classList.contains('featured-link-mobile')) {
+                    this.toggleMenu(false);
+                }
 
                 // Check if we're already on home page
                 const isHomePage = window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#';
 
+                const delay = link.classList.contains('featured-link-mobile') ? 300 : 0;
+                const navigateDelay = link.classList.contains('featured-link-mobile') ? 800 : 500;
+
                 if (isHomePage) {
-                    // Scroll to featured section if already on home
-                    const featuredSection = document.querySelector('.featured-trips');
-                    if (featuredSection) {
-                        featuredSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    setTimeout(() => {
+                        const featuredSection = document.querySelector('.featured-trips');
+                        if (featuredSection) {
+                            featuredSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, delay);
                 } else {
-                    // Navigate to home first, then scroll (handled in home.js)
                     window.location.hash = '#/';
                     setTimeout(() => {
                         const featuredSection = document.querySelector('.featured-trips');
                         if (featuredSection) {
                             featuredSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
-                    }, 500); // Wait for page to load
+                    }, navigateDelay);
                 }
             });
-        }
+        });
 
-        // Featured link scroll functionality (Mobile)
-        const featuredLinkMobile = this.element.querySelector('.featured-link-mobile');
-        if (featuredLinkMobile) {
-            featuredLinkMobile.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.toggleMenu(false); // Close mobile menu first
-
-                // Check if we're already on home page
-                const isHomePage = window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#';
-
-                if (isHomePage) {
-                    // Scroll to featured section if already on home
-                    setTimeout(() => {
-                        const featuredSection = document.querySelector('.featured-trips');
-                        if (featuredSection) {
-                            featuredSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    }, 300); // Small delay for menu close animation
-                } else {
-                    // Navigate to home first, then scroll
-                    window.location.hash = '#/';
-                    setTimeout(() => {
-                        const featuredSection = document.querySelector('.featured-trips');
-                        if (featuredSection) {
-                            featuredSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    }, 800); // Longer wait for page load
-                }
-            });
-        }
+        // Listen for hash changes to re-trigger route check
+        window.addEventListener('hashchange', () => this.createGlobalTrigger());
     }
 
     /**
@@ -504,77 +488,86 @@ export default class Navbar {
     mount(parent, options = {}) {
         parent.insertBefore(this.element, parent.firstChild);
 
-        if (options.solid) {
-            this.setSolid(true);
-        }
-
-        // Internal Animation to hide/show
-        this.scrollTriggerAnim = gsap.to(this.element, {
-            yPercent: -100,
-            paused: true,
-            duration: 0.5,
-            ease: 'power3.inOut'
-        });
-
-        // Global trigger for non-home pages
-        if (options.globalScroll !== false) {
-            this.createGlobalTrigger();
-        }
+        // Global trigger for scroll behavior logic
+        this.createGlobalTrigger();
     }
 
     createGlobalTrigger() {
         if (this.globalTrigger) this.globalTrigger.kill();
-        this.globalTrigger = ScrollTrigger.create({
-            start: 'top top',
-            end: 99999,
+
+        const isHomePage = window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#';
+
+        // Initial State
+        if (isHomePage) {
+            this.element.classList.remove('visible');
+        } else {
+            // For other pages, start visible
+            this.element.classList.add('visible');
+        }
+
+        // Track state locally
+        let isNavVisible = !isHomePage;
+
+        ScrollTrigger.create({
+            start: 0,
+            end: 999999,
             onUpdate: (self) => {
-                if (self.direction === 1) {
-                    this.scrollTriggerAnim.play();
+                const scrollTop = self.scroll();
+                const direction = self.direction; // 1 = down, -1 = up
+
+                if (isHomePage) {
+                    // Home Page Logic
+                    const threshold = window.innerHeight * 0.4;
+
+                    if (scrollTop < threshold) {
+                        // Force Hidden at top of Home
+                        if (isNavVisible) {
+                            this.element.classList.remove('visible');
+                            isNavVisible = false;
+                        }
+                    } else {
+                        // Smart Scroll past threshold
+                        if (direction === 1) { // Down -> Hide
+                            if (isNavVisible) {
+                                this.element.classList.remove('visible');
+                                isNavVisible = false;
+                            }
+                        } else if (direction === -1) { // Up -> Show
+                            if (!isNavVisible) {
+                                this.element.classList.add('visible');
+                                isNavVisible = true;
+                            }
+                        }
+                    }
                 } else {
-                    this.scrollTriggerAnim.reverse();
+                    // Non-Home Page Logic
+                    if (scrollTop <= 10) {
+                        // Ensure visible at very top
+                        if (!isNavVisible) {
+                            this.element.classList.add('visible');
+                            isNavVisible = true;
+                        }
+                    } else {
+                        // Smart Scroll
+                        if (direction === 1) { // Down -> Hide
+                            if (isNavVisible) {
+                                this.element.classList.remove('visible');
+                                isNavVisible = false;
+                            }
+                        } else if (direction === -1) { // Up -> Show
+                            if (!isNavVisible) {
+                                this.element.classList.add('visible');
+                                isNavVisible = true;
+                            }
+                        }
+                    }
                 }
             }
         });
     }
 
     setSolid(isSolid) {
-        if (isSolid) {
-            this.element.classList.add('solid');
-            const navLinks = this.element.querySelectorAll('.nav-btn, .contact-info');
-            const navLogo = this.element.querySelector('.nav-logo');
-            if (navLogo) {
-                gsap.to(navLogo, {
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            }
-            if (navLinks.length > 0) {
-                gsap.to(navLinks, {
-                    color: 'rgb(2, 24, 76)',
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            }
-        } else {
-            this.element.classList.remove('solid');
-            const navLinks = this.element.querySelectorAll('.nav-btn, .contact-info');
-            const navLogo = this.element.querySelector('.nav-logo');
-            if (navLogo) {
-                gsap.to(navLogo, {
-                    opacity: 0,
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            }
-            if (navLinks.length > 0) {
-                gsap.to(navLinks, {
-                    color: 'rgb(255, 255, 255)',
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            }
-        }
+        // Method kept for compatibility
     }
 
     setVisible(visible) {

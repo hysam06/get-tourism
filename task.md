@@ -1,6 +1,40 @@
-# Task: Implement Ripple Background for Contact Page
+# Navbar Redesign Task
 
-- [x] Research MagicUI source and existing code <!-- id: 0 -->
-- [x] Refine CSS in `styles.css` <!-- id: 1 -->
-- [x] Update `contact.js` if necessary <!-- id: 2 -->
-- [x] Verify UI in browser <!-- id: 3 -->
+- [x] Explore codebase to locate Navbar component
+- [x] Create/Update implementation plan
+- [x] Implement new Navbar design
+    - [x] Structure (HTML/JSX)
+    - [x] Styling (CSS - Pill shape, colors, layout)
+- [x] Refine Navbar Style & Behavior
+    - [x] **Size**: Make smaller (thinner padding)
+    - [x] **Layout**: Split links (side by side) with Centered Logo
+    - [x] Keep "Show on Scroll" behavior (Global)
+    - [x] Link Order: [Featured, Services] - LOGO - [About, Contact]
+    - [x] **Width**: Reduce overall width (max-width)
+    - [x] **Animation**: Smoother and slower
+    - [x] **Home Page Logic**: Show ONLY after reaching "Discover The World" text
+    - [x] **Font**: Non-bold (Regular weight)
+    - [x] **Background**: Blending effect (Glassmorphism/Transparency)
+    - [x] **Smart Scroll**: Hide on Down, Show on Up
+    - [x] **Non-Home Page Logic**: Visible at Top, Hide on Scroll Down
+    - [x] **Contact Page Logic**: Like Home Page (Hidden at Top) <!-- id: 26 -->
+- [x] **Redesign About Us Page** <!-- id: 4 -->
+    - [x] Extract content from provided images <!-- id: 5 -->
+    - [x] Create implementation plan <!-- id: 6 -->
+    - [x] Implement new `About` structure in `src/pages/about.js` <!-- id: 7 -->
+        - [x] Hero Section ("Who We Are") <!-- id: 8 -->
+        - [x] Intro Text Section ("Beauty and quality...") <!-- id: 9 -->
+            - [x] **Font update**: Match "other texts" (Montserrat)
+    - [x] **Implement New Content Sections**
+        - [x] **Welcome Section**: "At Great Escapes Tourism..."
+        - [x] **Inbound Tours Section**: "UAE Inbound Tours..."
+        - [x] **Outbound Tours Section**: "Outbound Tours..."
+        - [x] **Styling**: Minimal alignment, clean typography
+    - [x] **Refine Layout and Alignment**
+        - [x] Change hero title to "Who We Are"
+        - [x] Add "Our Story" heading to intro
+        - [x] Remove "Our Tours" heading
+        - [x] Improve vertical flow/alignment
+    - [x] Add explicit styles in `styles.css` <!-- id: 11 -->
+    - [x] Verify responsiveness and aesthetics <!-- id: 12 -->
+- [x] Verify changes
