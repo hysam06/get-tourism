@@ -1,11 +1,14 @@
+import './countryDetail.css';
+import { getCountry } from '../data/countries.js';
 import Footer from '../components/Footer.js';
 import gsap from 'gsap';
-import { getCountry } from '../data/countries.js';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default class CountryDetail {
     constructor(params) {
         this.params = params;
         this.data = getCountry(params.id || 'dubai');
+        this.selectedIndex = 0;
     }
 
     async mount(container) {
@@ -14,71 +17,125 @@ export default class CountryDetail {
             return;
         }
 
+        // Combine highlights and activities, removing duplicates
+        const highlights = this.data.highlights || [];
+        const activities = this.data.activities || [];
+
+        const allItems = [
+            ...highlights,
+            ...activities
+        ].filter((item, index, self) =>
+            index === self.findIndex((t) => (
+                t.title === item.title
+            ))
+        );
+
         container.innerHTML = `
-            <div class="page-container country-page">
-                <section class="hero-subpage">
-                    <img src="${this.data.image || '/assets/home%20page%20bg.jpg'}" alt="${this.data.name}" />
-                    <h1>${this.data.name}</h1>
+            <div class="country-page">
+                <section class="country-hero">
+                    <div class="hero-bg">
+                        <img src="${this.data.heroImage}" alt="${this.data.name}" />
+                        <div class="overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                         <h2 class="fade-in">Destination</h2>
+                         <h1 class="hero-title fade-in" style="animation-delay: 0.2s">${this.data.name}</h1>
+                         <p class="hero-tagline fade-in" style="animation-delay: 0.4s">${this.data.tagline}</p>
+                    </div>
+                </section>
+                
+                <section class="smooth-scroll-section">
+                    <div class="content-wrapper">
+                        <div class="pinned-image" id="pinned-image">
+                            <img src="${allItems[0]?.image || this.data.heroImage}" alt="${allItems[0]?.title || this.data.name}" />
+                        </div>
+                        <div class="text-column">
+                            <p>${this.data.description}</p>
+                        </div>
+                    </div>
+                    <div class="content-wrapper" style="margin-top: -390px;">
+                        <div style="width: 40%;"></div>
+                        <div class="text-column text-column-small" style="flex-direction: column; align-items: flex-start; width: 55%;">
+                            <h2 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; color: #1a1a1a; margin-bottom: 0.5rem;">Why Us</h2>
+                            <p>${this.data.whyUs || 'Discover unforgettable experiences with personalized service and exclusive access to the best attractions.'}</p>
+                        </div>
+                    </div>
+
+                    <div class="destinations-list">
+                        ${allItems.map((item, index) => `
+                            <div class="destination-item" data-index="${index}">
+                                <h2>${item.title}</h2>
+                            </div>
+                        `).join('')}
+                    </div>
                 </section>
 
-                <div class="content-section">
-                    <h2>Explore ${this.data.name}</h2>
-                    <p>${this.data.description || 'Experience the beauty and culture of this incredible destination with our luxury travel packages.'}</p>
-                </div>
-
-                <div class="content-section">
-                    <h2>Top Attractions</h2>
-                    <p>
-                        Discover the must-see landmarks and hidden gems that make ${this.data.name} a unique destination. 
-                        From historical sites to modern marvels, there's something for every type of traveler.
-                    </p>
-                    <p>
-                        Our expert guides will ensure you experience the very best this destination has to offer, with 
-                        exclusive access to popular attractions and insider knowledge of local favorites.
-                    </p>
-                </div>
-
-                <div class="content-section">
-                    <h2>Cultural Experiences</h2>
-                    <p>
-                        Immerse yourself in the local culture with authentic experiences that go beyond typical tourist activities. 
-                        From traditional cuisine to cultural performances, we bring you closer to the heart of ${this.data.name}.
-                    </p>
-                    <p>
-                        Participate in local festivals, visit artisan workshops, and engage with communities to gain a deeper 
-                        understanding of the destination's rich heritage.
-                    </p>
-                </div>
-
-                <div class="content-section">
-                    <h2>Travel Tips</h2>
-                    <p>
-                        Planning your trip to ${this.data.name}? Here are some essential tips to make your journey smooth and enjoyable. 
-                        From the best time to visit to local customs and etiquette, we've got you covered.
-                    </p>
-                    <p>
-                        Our travel experts are always available to answer your questions and provide personalized recommendations 
-                        based on your interests and travel style.
-                    </p>
-                </div>
+                <section class="contact-section">
+                    <div class="contact-content">
+                        <h2>Contact for more details</h2>
+                        <a href="/contact" class="contact-btn">Enquire Now</a>
+                    </div>
+                </section>
             </div>
         `;
 
+        // Initialize GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Store references
+        this.imageContainer = container.querySelector('#pinned-image');
+        const scrollSection = container.querySelector('.smooth-scroll-section');
+
+        // Create pin trigger for image
+        this.pinTrigger = ScrollTrigger.create({
+            trigger: this.imageContainer,
+            pin: true,
+            start: "top 100px",
+            endTrigger: scrollSection,
+            end: "bottom bottom",
+            pinSpacing: false
+        });
+
+        // Add hover and touch listeners for image switching
+        const destinationItems = container.querySelectorAll('.destination-item');
+        destinationItems.forEach((item) => {
+            const handleInteraction = () => {
+                const index = parseInt(item.dataset.index);
+                this.changeImage(index, allItems);
+            };
+
+            // Support both mouse and touch interactions
+            item.addEventListener('mouseenter', handleInteraction);
+            item.addEventListener('click', handleInteraction);
+            item.addEventListener('touchstart', handleInteraction, { passive: true });
+        });
+
         // Mount Footer
         this.footer = new Footer();
-        this.footer.mount(container, { type: 'fixed' });
+        this.footer.mount(document.body, { type: 'reveal' });
+    }
 
-        // Animation
-        gsap.from('.hero-subpage h1', {
-            y: 50,
+    changeImage(index, items) {
+        if (this.selectedIndex === index) return;
+        this.selectedIndex = index;
+
+        const img = this.imageContainer.querySelector('img');
+        const newSrc = items[index]?.image || this.data.heroImage;
+
+        // Smooth image transition
+        gsap.to(img, {
             opacity: 0,
-            duration: 1,
-            ease: "power3.out"
+            duration: 0.3,
+            onComplete: () => {
+                img.src = newSrc;
+                gsap.to(img, { opacity: 1, duration: 0.3 });
+            }
         });
     }
 
     unmount() {
+        if (this.pinTrigger) this.pinTrigger.kill();
+        ScrollTrigger.getAll().forEach(t => t.kill());
         if (this.footer) this.footer.destroy();
     }
 }
-

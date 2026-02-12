@@ -1,112 +1,90 @@
-import Footer from '../components/Footer.js';
+import './destinations.css';
+import { countries } from '../data/countries.js';
 import gsap from 'gsap';
+import Footer from '../components/Footer.js';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default class Destinations {
     async mount(container) {
+        gsap.registerPlugin(ScrollTrigger);
+        const countriesList = Object.values(countries);
+
         container.innerHTML = `
-            <div class="page-container destinations-page">
-                <section class="hero-subpage">
-                    <img src="/assets/tour%20packages.jpg" alt="Destinations" />
-                    <h1>Destinations</h1>
+            <div class="destinations-page">
+                <!-- Hero Section -->
+                <section class="page-hero" style="position: relative; height: 60vh; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <div class="hero-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+                        <img src="/assets/tour-packages-hero.jpg" alt="Tour Packages" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4);"></div>
+                    </div>
+                    <div class="hero-content text-center" style="position: relative; z-index: 2; color: white;">
+                        <h1 style="font-family: 'Instrument Serif', serif; font-size: 5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">Tour Packages</h1>
+                    </div>
                 </section>
 
-                <div class="content-section">
-                    <h2>World-Class Travel</h2>
-                    <p>
-                        Discover our curated list of destinations. From the futuristic skyline of Dubai to the 
-                        cultural treasures of Europe, we bring you the best the world has to offer.
-                    </p>
-                    <p>
-                        Explore our exclusive packages designed for luxury and comfort. Whether you're looking for 
-                        beach resorts, mountain escapes, or city tours, we have the perfect destination for you.
-                    </p>
-                </div>
-
-                <div class="content-section">
-                    <h2>Middle East Adventures</h2>
-                    <p>
-                        Experience the magic of the Middle East with our specially designed tours to Dubai, Abu Dhabi, and beyond. 
-                        Marvel at architectural wonders, shop in world-class malls, and immerse yourself in rich cultural heritage.
-                    </p>
-                    <p>
-                        From desert safaris to luxury yacht cruises, the Middle East offers endless opportunities for adventure 
-                        and relaxation in equal measure.
-                    </p>
-                </div>
-
-                <div class="content-section">
-                    <h2>European Escapes</h2>
-                    <p>
-                        Journey through the romantic streets of Paris, the historic landmarks of Rome, or the vibrant nightlife 
-                        of Barcelona. Our European tours are crafted to showcase the continent's diverse beauty and timeless charm.
-                    </p>
-                    <p>
-                        Whether you're seeking art and culture, culinary delights, or scenic countryside, Europe has something 
-                        special waiting for every traveler.
-                    </p>
-                </div>
-
-                <div class="content-section">
-                    <h2>Tropical Paradises</h2>
-                    <p>
-                        Escape to the pristine beaches of the Maldives, Seychelles, or Mauritius. Our tropical destinations offer 
-                        the perfect blend of relaxation and adventure, with crystal-clear waters and world-class resorts.
-                    </p>
-                    <p>
-                        Dive into vibrant coral reefs, indulge in spa treatments, or simply unwind with a cocktail as you watch 
-                        the sunset over the Indian Ocean.
-                    </p>
-                </div>
-                <div class="content-section">
-                    <h2>Kerala: God's Own Country</h2>
-                    <p>
-                        Discover the serene backwaters, lush hill stations, and pristine beaches of Kerala. Often called 
-                        "God's Own Country," this tropical paradise in India offers a unique blend of nature, culture, and wellness.
-                    </p>
-                    <p>
-                        Experience a houseboat cruise in Alleppey, explore the tea gardens of Munnar, or rejuvenate with 
-                        authentic Ayurveda treatments. Kerala promises a journey of tranquility and beauty.
-                    </p>
-                </div>
-
-                <div class="content-section">
-                    <h2>Dubai: The City of Gold</h2>
-                    <p>
-                        Step into the future with a visit to Dubai, a city that redefines luxury and innovation. From the 
-                        soaring heights of the Burj Khalifa to the man-made wonder of Palm Jumeirah, Dubai is a marvel of modern engineering.
-                    </p>
-                    <p>
-                        Indulge in world-class shopping, thrilling desert safaris, and exquisite dining experiences. Whether 
-                        you seek adventure or relaxation, Dubai offers an unforgettable escape.
-                    </p>
-                </div>
+                <!-- Intro Section -->
+                <section class="intro-section" style="background: #fff; color: #1a1a1a; padding: 6rem 2rem; text-align: center;">
+                    <div class="container" style="max-width: 800px; margin: 0 auto;">
+                        <h2 style="font-family: 'Instrument Serif', serif; font-size: 3.5rem; margin-bottom: 1.5rem;">Our Destinations</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.8; color: #555; font-family: 'Inter', sans-serif;">
+                            Experience the essence of each destination through our meticulously designed tour packages. Explore the iconic attractions while also delving into the hidden gems that make each place truly special. Whether it's a Dubai city tour with all excursions or a journey to the exotic landscapes of Kerala, our packages ensure a holistic and immersive travel experience.
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Destinations Grid -->
+                <section class="destinations-grid-section" style="background: #fff; padding: 0 2rem 6rem;">
+                    <div class="container" style="max-width: 1400px; margin: 0 auto;">
+                        <div class="grid">
+                            ${countriesList.map(country => `
+                                <a href="#/country/${country.id}" class="destination-card" data-continent="${country.continent || 'World'}" data-link>
+                                    <div class="card-image">
+                                        <img src="${country.heroImage}" alt="${country.name}">
+                                        <div class="card-overlay"></div>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3>${country.name}</h3>
+                                        <span class="explore-btn">Explore</span>
+                                    </div>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
             </div>
         `;
 
+        // Animation
+        gsap.from('.page-hero h1', { opacity: 0, y: 30, duration: 1, delay: 0.2 });
+        gsap.from('.intro-section h2, .intro-section p', {
+            opacity: 0,
+            y: 30,
+            duration: 1,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: '.intro-section',
+                start: 'top 80%'
+            }
+        });
+        gsap.from('.destination-card', {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            stagger: 0.1,
+            scrollTrigger: {
+                trigger: '.grid',
+                start: 'top 80%'
+            }
+        });
+
         // Mount Footer
         this.footer = new Footer();
-        this.footer.mount(container, { type: 'fixed' });
-
-        // Animation
-        gsap.from('.hero-subpage h1', {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out"
-        });
-
-        gsap.from('.content-section > *', {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: "power2.out",
-            delay: 0.3
-        });
+        this.footer.mount(document.body, { type: 'reveal' });
     }
 
     unmount() {
-        if (this.footer) this.footer.destroy();
+        if (this.footer) {
+            this.footer.destroy();
+        }
     }
 }
-

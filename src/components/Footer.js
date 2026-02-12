@@ -40,6 +40,7 @@ export default class Footer {
         const footerTemplate = document.createElement('div');
         footerTemplate.innerHTML = this.html.trim();
         const footerElement = footerTemplate.firstChild;
+        this.element = footerElement; // Store reference for removal
 
         // Default to fixed positioning for parallax effect
         const footerType = options.type || 'fixed';
@@ -99,8 +100,14 @@ export default class Footer {
     destroy() {
         if (this.resizeObserver) {
             this.resizeObserver.disconnect();
-        } else if (this.resizeHandler) {
+        }
+        if (this.resizeHandler) {
             window.removeEventListener('resize', this.resizeHandler);
+        }
+
+        // Remove the footer element from the DOM
+        if (this.element && this.element.parentNode) {
+            this.element.parentNode.removeChild(this.element);
         }
     }
 }
